@@ -16,10 +16,17 @@ function App() {
                 </div>
                 myParking
               </h2>
-              <NamedLink name="home">Home</NamedLink>
+              <NamedLink name="home">
+                Home
+              </NamedLink>
+              <NamedLink name="vehicles.index">
+                Vehicles
+              </NamedLink>
             </div>
             <div className="flex items-center gap-4">
-              <NamedLink name="register">Register</NamedLink>
+              <NamedLink name="register">
+                Register
+              </NamedLink>
             </div>
           </nav>
         </div>

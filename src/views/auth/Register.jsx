@@ -1,5 +1,6 @@
 import validate from './validationFunctions';
 import { useState } from 'react';
+import { useAuth } from '@/hooks/useAuth'
 
 function Register() {
   const [name, setName] = useState('')
@@ -8,6 +9,7 @@ function Register() {
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
   // Each key is the name attribute of an input and each value is an array of error messages
   const [errors, setErrors] = useState({})
+  const { register } = useAuth()
 
   function updateErrors(inputName, errorMessage) {
     // The error message cannot be duplicated
@@ -21,10 +23,15 @@ function Register() {
     });
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     const inputs = document.querySelectorAll('input');
-    validate.onSubmit(inputs, updateErrors);
+    
+    const success = validate.allInputs(inputs, updateErrors);
+
+    if (!success) return;
+
+    await register({ name, email, password, password_confirmation: passwordConfirmation });
   }
 
   return (
