@@ -97,9 +97,8 @@ export default {
             );
         });
 
-        // i was checking initially for the presence of 'border-error' class in some input to consider the validation as successful or not, 
-        // but that was wrong: a state variable does not get automatically updated after the `set` function finishes its execution. Instead, it gets batched 
-        // until the "high-level parent function" - that is, the most-outer function that caused its execution - gets finished. 
+        // i was checking initially for the presence of 'border-error' class in some input to consider the validation as successful or not, but that was wrong: 
+        // a state variable does not get automatically updated after the `set` function finishes its execution. In React, state updates are asynchronous and batched. 
         // Thus, never an element with border-error would exist at the time of a condition checking here.
         if (validationResults.includes(false)) return false;
 
