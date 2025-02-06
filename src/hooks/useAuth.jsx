@@ -4,24 +4,27 @@ import { useState } from 'react'
 
 export function useAuth() {
     const [errors, setErrors] = useState({})
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
     // `data` should be {name, email, password, password_confirmation}
     async function register(data) {
         setErrors({})
+        setLoading(true)
 
         return axios.post('auth/register', data)
             .then(() => {
-                navigate(route('vehicles.index'))
+              navigate(route('vehicles.index'))
             })
-            .catch((error) => {
-                if (error.response.status === 422) {
-                    setErrors(error.response.data.errors)
-                }
+            .catch(error => {
+              if (error.response.status === 422) {
+                setErrors(error.response.data.errors)
+              }
             })
+            .finally(() => setLoading(false))
     }
 
-    return { register, errors }
+    return { register, errors, loading }
 }
 
 // const response = await axios.post('auth/register', data);
