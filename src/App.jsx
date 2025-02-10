@@ -3,6 +3,7 @@ import NamedLink from '@/components/NamedLink'
 import { useAuth } from '@/hooks/useAuth'
  
 function App() {
+  // isLoggedIn is not a global state - isn't shared between components, so changing it in 'useAuth' from 'Login' wouldn't trigger a re-render here
   const { isLoggedIn, logout } = useAuth()
 
   axios.interceptors.response.use(
@@ -23,6 +24,9 @@ function App() {
  
   function leftAuthLinks() {
     return <>
+      <NamedLink name="parkings.active">
+        Parkings
+      </NamedLink>
       <NamedLink name="vehicles.index">
         Vehicles
       </NamedLink>
