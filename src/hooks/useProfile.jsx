@@ -1,35 +1,40 @@
-import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-function useProfile() {
-    const [errors, setErrors] = useState({});
-    const [loading,  setLoading] = useState(false);
-    const [successMessage, setSuccessMessage] = useState('');
+export function useProfile() {
+    const [errors, setErrors] = useState({})
+    const [loading, setLoading] = useState(false)
+    const [status, setStatus] = useState('')
+    const [data, setData] =  useState({})
 
-    function getProfile() {
-        return axios.get('/profile')
-            .then(response => response.data)
-            .catch(error => console.error(error));
+    useEffect(() => {
+        const controller = new AbortController()
+        getProfile({ signal: controller.signal })
+        return () => controller.abort()
+    }, [])
+
+    async function getProfile({ signal } = {}) {
+        setLoading(true)
+
+        return axios.get('profile', { signal })
+            .then(response => setData(response.data))
+            .catch(() => {})
+            .finally(() => setLoading(false))
     }
 
-    function editProfile(data) {
-        setErrors({});
-        setLoading(true);
-        setSuccessMessage('');
+    async function updateProfile(data) {
+        setLoading(true)
+        setErrors({})
+        setStatus('')
 
-        axios.put('/profile', data)
-            .then(response => {
-                setSuccessMessage('Profile has been updated');
-            })
+        return axios.put('profile', data)
+            .then(() => setStatus('Profile has been updated.'))
             .catch(error => {
                 if (error.response?.status === 422) {
-                    setErrors(error.response.data.errors);
+                    setErrors(error.response.data.errors)
                 }
             })
-            .finally(() => setLoading(false));
+            .finally(() => setLoading(false))
     }
-
-    return { errors, loading, successMessage, getProfile, editProfile };
+        
+    return [{ data, setData, errors, loading, status }, updateProfile]
 }
-
-export default useProfile;

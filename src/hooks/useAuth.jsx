@@ -42,7 +42,7 @@ export function useAuth() {
       setErrors({})
       setLoading(true)
 
-      return axios.post('/auth/login', data)
+      return axios.post('auth/login', data)
         .then(response => {
           setAccessToken(response.data.access_token)
           navigate(route('parkings.active'))
