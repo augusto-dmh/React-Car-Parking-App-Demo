@@ -5,6 +5,7 @@ const routeNames = {
     'vehicles.index': '/vehicles',
     'parkings.active': '/parkings/active',
     'profile.edit': '/profile',
+    'password.change': '/change-password',
 };
 
 function route(name, params = {}) {

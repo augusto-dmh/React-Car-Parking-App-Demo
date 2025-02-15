@@ -11,6 +11,7 @@ import '@/assets/main.css'
 import { route } from '@/routes'
 import ActiveParkings from '@/views/parkings/ActiveParkings'
 import EditProfile from '@/components/EditProfile'
+import ChangePassword from '@/components/ChangePassword'
 
 window.axios = axios
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
@@ -28,6 +29,7 @@ createRoot(document.getElementById('root')).render(
           <Route path={ route('vehicles.index')} element={<VehiclesList />} />
           <Route path={ route('parkings.active')} element={<ActiveParkings />} />
           <Route path={ route('profile.edit') } element={<EditProfile />} />
+          <Route path={ route('password.change') } element={<ChangePassword />} />
         </Route>
       </Routes>
     </BrowserRouter>

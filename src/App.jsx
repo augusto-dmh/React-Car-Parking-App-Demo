@@ -49,6 +49,9 @@ function App() {
       <NamedLink name="profile.edit">
         Edit Profile
       </NamedLink>
+      <NamedLink name="password.change">
+        Change Password
+      </NamedLink>
       <button onClick={ logout } type="button" className="text-blue-600">
         Logout
       </button>
