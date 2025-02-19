@@ -7,7 +7,7 @@ import Home from '@/views/Home'
 import Register from '@/views/auth/Register'
 import Login from '@/views/auth/Login'
 import VehicleList from '@/views/vehicles/VehicleList'
-import VehicleStore from '@/views/vehicles/VehicleStore'
+import CreateVehicle from '@/views/vehicles/CreateVehicle'
 import '@/assets/main.css'
 import { route } from '@/routes'
 import ActiveParkings from '@/views/parkings/ActiveParkings'
@@ -28,7 +28,7 @@ createRoot(document.getElementById('root')).render(
           <Route path={ route('register') } element={<Register />} />
           <Route path={ route('login') } element={<Login/>} />
           <Route path={ route('vehicles.index')} element={<VehicleList />} />
-          <Route path={ route('vehicles.store')} element={<VehicleStore />} />
+          <Route path={ route('vehicles.create')} element={<CreateVehicle />} />
           <Route path={ route('parkings.active')} element={<ActiveParkings />} />
           <Route path={ route('profile.edit') } element={<EditProfile />} />
           <Route path={ route('profile.change-password') } element={<ChangePassword />} />
