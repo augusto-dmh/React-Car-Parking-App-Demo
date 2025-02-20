@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
 import { route } from '@/routes'
 import { useVehicles } from '@/hooks/useVehicles'
+import { useNavigate } from 'react-router-dom';
  
 function VehiclesList() {
   const { vehicles } = useVehicles()
+  const navigate = useNavigate();
  
   return (
     <div className="flex flex-col w-full mx-auto md:w-96">
@@ -32,7 +34,7 @@ function VehiclesList() {
                 </div>
               </div>
               <div className="flex gap-1">
-                <button type="button" className="text-sm btn btn-secondary">
+                <button type="button" className="text-sm btn btn-secondary" onClick={() => navigate(route('vehicles.edit', { id: vehicle.id }))}>
                   Edit
                 </button>
                 <button type="button" className="text-sm text-white bg-red-600 btn hover:bg-red-500">
