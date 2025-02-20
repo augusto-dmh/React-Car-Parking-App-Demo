@@ -1,8 +1,13 @@
 import NamedLink from '@/components/NamedLink';
 import { Link } from 'react-router-dom';
 import { route } from '@/routes';
+import useVehicle from '@/hooks/useVehicle';
+import IconSpinner from '@/components/IconSpinner';
+import VehicleItems from '@/components/VehicleItems';
 
 function VehiclesList() {
+    const { vehicle: { data, loading } } = useVehicle();
+
     return (
         <div>
             <div className="flex flex-col w-full mx-auto md:w-96">
@@ -15,8 +20,15 @@ function VehiclesList() {
                 </div>
 
                 <div className="border-t h-[1px] my-6"></div>
-                <p>There will be vehicles list</p>  
+
+                { console.log('access_token: ' + localStorage.getItem('access_token')) }
+
+                { loading 
+                    ? <IconSpinner />
+                    : <VehicleItems vehicles={ data } />
+                }  
             </div>
+
         </div>
     );
 }
