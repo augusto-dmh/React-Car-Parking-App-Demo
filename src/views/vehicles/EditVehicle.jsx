@@ -1,17 +1,18 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { route } from '@/routes'
 import useVehicle from "@/hooks/useVehicle";
 import ValidationError from '@/components/ValidationError';
 import IconSpinner from '@/components/IconSpinner';
 
 function EditVehicle() {
-    const { vehicle, editVehicle } = useVehicle()
+    const params = useParams()
+    const { vehicle, updateVehicle } = useVehicle(params.id)
     const navigate = useNavigate()
 
     async function handleSubmit(event) {
         event.preventDefault()
 
-        await editVehicle(vehicle.data)
+        await updateVehicle(vehicle.data)
     }
 
     return (
@@ -48,7 +49,7 @@ function EditVehicle() {
                         disabled={ vehicle.loading }
                     >
                         { vehicle.loading && <IconSpinner /> }
-                        Save Vehicle
+                        Update Vehicle
                     </button>
 
                     <button
