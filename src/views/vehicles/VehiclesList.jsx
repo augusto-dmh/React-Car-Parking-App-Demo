@@ -5,9 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import useVehicle from '../../hooks/useVehicle';
  
 function VehiclesList() {
-  const { vehicles, setVehicles } = useVehicles()
-  const navigate = useNavigate();
-  const { vehicle: { confirmDeletionForVehicle }, tryToDeleteVehicle } = useVehicle();
+  const { vehicles, getVehicles } = useVehicles()
+  const { destroyVehicle } = useVehicle()
  
   return (
     <div className="flex flex-col w-full mx-auto md:w-96">
@@ -43,10 +42,14 @@ function VehiclesList() {
                   Edit
                 </Link>
                 <button type="button" className="text-sm text-white bg-red-600 btn hover:bg-red-500"
-                  onClick={ (event) => tryToDeleteVehicle(vehicle, setVehicles) }
-                >
-                  { confirmDeletionForVehicle === vehicle.id ? 'Confirm' : 'X' }
-                </button>
+                  onClick={ async () => { 
+                    await destroyVehicle(vehicle)
+                    // considering this functionality is in a multi-tenant module (vehicles) 
+                    // and thus we wouldn't have two or more users managing the same type of resource they own at the same time, 
+                    // my previous own approach of setting the vehicles without the deleted vehicle seems more appropriate than making an API call to refetch the vehicles.
+                    await getVehicles()
+                  }}
+                >X</button>
               </div>
             </div>
           )
