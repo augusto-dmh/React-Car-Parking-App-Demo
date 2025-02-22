@@ -6,6 +6,7 @@ const routeNames = {
     'vehicles.create': '/vehicles/create',
     'vehicles.edit': '/vehicles/:id/edit',
     'parkings.active': '/parkings/active',
+    'parkings.order': '/parkings/order',
     'profile.edit': '/profile',
     'profile.change-password': '/profile/change-password',
 };
