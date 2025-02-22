@@ -2,10 +2,12 @@ import { Link } from 'react-router-dom'
 import { route } from '@/routes'
 import { useVehicles } from '@/hooks/useVehicles'
 import { useNavigate } from 'react-router-dom';
+import useVehicle from '../../hooks/useVehicle';
  
 function VehiclesList() {
-  const { vehicles } = useVehicles()
+  const { vehicles, setVehicles } = useVehicles()
   const navigate = useNavigate();
+  const { vehicle: { confirmDeletionForVehicle }, tryToDeleteVehicle } = useVehicle();
  
   return (
     <div className="flex flex-col w-full mx-auto md:w-96">
@@ -40,8 +42,10 @@ function VehiclesList() {
                 >
                   Edit
                 </Link>
-                <button type="button" className="text-sm text-white bg-red-600 btn hover:bg-red-500">
-                  X
+                <button type="button" className="text-sm text-white bg-red-600 btn hover:bg-red-500"
+                  onClick={ (event) => tryToDeleteVehicle(vehicle, setVehicles) }
+                >
+                  { confirmDeletionForVehicle === vehicle.id ? 'Confirm' : 'X' }
                 </button>
               </div>
             </div>
