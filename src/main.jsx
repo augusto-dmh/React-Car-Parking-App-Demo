@@ -40,7 +40,7 @@ createRoot(document.getElementById('root')).render(
           <Route path={ route('vehicles.create')} element={<CreateVehicle />} />
           <Route path={ route('vehicles.edit')} element={<EditVehicle />} />
           <Route path={ route('parkings.active')} element={<ActiveParkings />} />
-          <Route path={ route('parkings.order')} element={<OrderParking />} />
+          <Route path={ route('parkings.create')} element={<OrderParking />} />
           <Route path={ route('profile.edit') } element={<EditProfile />} />
           <Route path={ route('profile.change-password') } element={<ChangePassword />} />
         </Route>

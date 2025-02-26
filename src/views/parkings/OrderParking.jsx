@@ -1,27 +1,27 @@
 import { useNavigate } from 'react-router-dom';
 import { route } from '@/routes';
-import useParking from "@/hooks/useParking";
 import ValidationError from '@/components/ValidationError';
 import IconSpinner from '@/components/IconSpinner';
+import { useVehicles } from '@/hooks/useVehicles';
+import { useZones } from '@/hooks/useZones';
+import { useParking } from '@/hooks/useParking';
+import { useEffect, useState } from 'react';
 
 function OrderParking() {
-    const { 
-        parkingOptions: { 
-            toSelect: { vehicles, zones }, 
-            selected: { selectedOptions, setSelectedOptions },
-        },
-        createParking,
-        loading,
-        errors,
-        successMessage,
-    } = useParking();
-    
     const navigate = useNavigate();
+    const { errors, loading, startParking } = useParking();
+    const { zones } = useZones();
+    const { vehicles } = useVehicles();
+    const [vehicle_id, setVehicleId] = useState();
+    const [zone_id, setZoneId] = useState();
+
+    useEffect(() => setVehicleId(vehicles[0]?.id), [vehicles]);
+    useEffect(() => setZoneId(zones[0]?.id), [zones]);
 
     async function handleSubmit(event) {
         event.preventDefault();
 
-        await createParking(selectedOptions);
+        await startParking({ vehicle_id, zone_id });
     }
 
     return (
@@ -29,75 +29,66 @@ function OrderParking() {
             <div className="flex flex-col w-full mx-auto md:w-96">
                 <h1 className="heading">Order Parking</h1>
 
-                {successMessage && (
-                    <div className="mb-4 alert alert-success" role="alert">
-                        {successMessage}
-                    </div>
-                )}
-
                 <div className="flex flex-col gap-2 mb-4">
-                    <label htmlFor="vehicle-select" className="required">Vehicle</label>
+                    <label htmlFor="vehicle_id" className="required">Vehicle</label>
                     <select
-                        id="vehicle-select"
-                        onChange={event =>
-                            setSelectedOptions(previousValue => ({
-                                ...previousValue,
-                                vehicle_id: event.target.value
-                            }))
-                        }
+                        name="vehicle_id"
+                        id="vehicle_id"
                         className="form-input"
+                        value={vehicle_id}
+                        onChange={(event) => setVehicleId(event.target.value)}
                         disabled={loading}
                     >
-                        <option value="">Select a vehicle</option>
-                        { vehicles?.length && vehicles.map(vehicle => (
-                            <option key={vehicle.id} value={vehicle.id}>
-                                {vehicle.plate_number}
-                            </option>
-                        )) }
+                        {vehicles.length > 0 && vehicles.map((vehicle) => {
+                            return (
+                                <option key={vehicle.id} value={vehicle.id}>
+                                    {vehicle.plate_number.toUpperCase()}
+                                </option>
+                            );
+                        })}
                     </select>
                     <ValidationError errors={errors} field="vehicle_id" />
                 </div>
 
                 <div className="flex flex-col gap-2 mb-4">
-                    <label htmlFor="zone-select" className="required">Zone</label>
+                    <label htmlFor="zone_id" className="required">Zone</label>
                     <select
-                        id="zone-select"
-                        onChange={event =>
-                            setSelectedOptions(previousValue => ({
-                                ...previousValue,
-                                zone_id: event.target.value
-                            }))
-                        }
+                        name="zone_id"
+                        id="zone_id"
+                        value={zone_id}
                         className="form-input"
+                        onChange={(event) => setZoneId(event.target.value)}
                         disabled={loading}
                     >
-                        <option value="">Select a zone</option>
-                        { zones?.length && zones.map(zone => (
-                            <option key={zone.id} value={zone.id}>
-                                {zone.name} ({(zone.price_per_hour / 100).toFixed(2)} $/h)
-                            </option>
-                        )) }
+                        {zones.length > 0 && zones.map((zone) => {
+                            return (
+                                <option key={zone.id} value={zone.id}>
+                                    {zone.name} ({(zone.price_per_hour / 100).toFixed(2)} &euro;/h)
+                                </option>
+                            );
+                        })}
                     </select>
                     <ValidationError errors={errors} field="zone_id" />
+                    <ValidationError errors={errors} field="general" />
                 </div>
 
                 <div className="border-t h-[1px] my-6"></div>
 
-                <div className="flex flex-row gap-2">
+                <div className="flex items-center gap-2">
                     <button
                         type="submit"
                         className="w-full btn btn-primary"
                         disabled={loading}
                     >
                         {loading && <IconSpinner />}
-                        Save Parking
+                        Start Parking
                     </button>
 
                     <button
                         type="button"
                         className="btn btn-secondary"
                         disabled={loading}
-                        onClick={() => navigate(route('vehicles.index'))}
+                        onClick={() => navigate(route('parkings.active'))}
                     >
                         <span>Cancel</span>
                     </button>
