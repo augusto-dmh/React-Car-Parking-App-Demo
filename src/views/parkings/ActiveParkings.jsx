@@ -1,10 +1,28 @@
+import { useState, useEffect } from 'react'
+
 import { Link } from 'react-router-dom'
 import { route } from '@/routes'
-import { useParking } from '@/hooks/useParking'
  
 function ActiveParkings() {
-    const { parkings, stopParking } = useParking();
+  const [parkings, setParkings] = useState([])
 
+  useEffect(() => {
+    const controller = new AbortController()
+    getActiveParkings({ signal: controller.signal })
+    return () => controller.abort()
+  })
+
+  async function getActiveParkings({ signal } = {}) {
+    return axios.get('parkings', { signal })
+      .then(response => setParkings(response.data.data))
+      .catch(() => {})
+  }
+
+  async function stopParking(parking) {
+    await axios.put(`parkings/${parking.id}`)
+    await getActiveParkings()
+  }
+  
   return (
     <div className="flex flex-col w-full mx-auto md:w-96">
  
@@ -45,7 +63,7 @@ function ActiveParkings() {
             <button
               type="button"
               className="ml-auto uppercase btn btn-danger"
-              onClick={ () => stopParking(parking.id) }
+              onClick={ () => stopParking(parking) }
             >
               stop
             </button>
