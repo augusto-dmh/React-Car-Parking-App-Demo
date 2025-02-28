@@ -6,6 +6,14 @@ function App() {
   // isLoggedIn is not a global state - isn't shared between components, so changing it in 'useAuth' from 'Login' wouldn't trigger a re-render here
   const { isLoggedIn, logout } = useAuth()
 
+  axios.interceptors.response.use(
+    response => response,
+    error => {
+      if (error.response?.status === 401) logout(true)
+      return Promise.reject(error)
+    },
+  )
+
   function leftGuestLinks() {
     return <>
       <NamedLink name="home">
