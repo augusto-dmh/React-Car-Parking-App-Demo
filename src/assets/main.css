@@ -6,13 +6,21 @@
     label.required {
         @apply before:text-red-600 before:content-['*'] before:mr-1;
     }
+
+    label.disabled {
+        @apply opacity-50 cursor-not-allowed;
+    }
  
     .form-input {
-        @apply p-1 border bg-gray-100 disabled:opacity-50;
+        @apply p-1 bg-gray-100 border disabled:cursor-not-allowed disabled:opacity-50;
+    }
+
+    .form-input.border-error {
+        @apply focus:outline-red-500 focus:border-[2.5px] border-2 border-red-500;
     }
  
     .heading {
-        @apply font-bold text-2xl mb-4 text-center;
+        @apply mb-4 text-2xl font-bold text-center;
     }
  
     .btn {
@@ -32,7 +40,7 @@
     }
  
     .alert {
-        @apply border px-4 py-3 rounded relative;
+        @apply relative px-4 py-3 border rounded;
     }
  
     .alert-danger {
