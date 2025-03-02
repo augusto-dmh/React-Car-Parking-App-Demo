@@ -8,6 +8,7 @@ const routeNames = {
     'parkings.active': '/parkings/active',
     'parkings.history': '/parkings/history',
     'parkings.create': '/parkings/new',
+    'parkings.show': '/parkings/:id',
     'profile.edit': '/profile',
     'profile.change-password': '/profile/change-password',
 };

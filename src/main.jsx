@@ -13,6 +13,7 @@ import '@/assets/main.css'
 import { route } from '@/routes'
 import ActiveParkings from '@/views/parkings/ActiveParkings'
 import ParkingHistory from '@/views/parkings/ParkingHistory'
+import ParkingDetails from '@/views/parkings/ParkingDetails'
 import OrderParking from '@/views/parkings/OrderParking'
 import EditProfile from '@/views/profile/EditProfile'
 import ChangePassword from '@/views/profile/ChangePassword'
@@ -35,6 +36,7 @@ createRoot(document.getElementById('root')).render(
           <Route path={ route('vehicles.edit')} element={<EditVehicle />} />
           <Route path={ route('parkings.active')} element={<ActiveParkings />} />
           <Route path={ route('parkings.history')} element={<ParkingHistory />} />
+          <Route path={ route('parkings.show')} element={<ParkingDetails />} />
           <Route path={ route('parkings.create')} element={<OrderParking />} />
           <Route path={ route('profile.edit') } element={<EditProfile />} />
           <Route path={ route('profile.change-password') } element={<ChangePassword />} />

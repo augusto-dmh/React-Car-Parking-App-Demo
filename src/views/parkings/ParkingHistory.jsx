@@ -58,7 +58,7 @@ function ParkingHistory() {
             </div>
             <Link
               className="w-full ml-auto uppercase btn btn-secondary"
-              to={ route('parkings.details') }
+              to={ route('parkings.show', { id: parking.id }) }
             >
               view details
             </Link>
